@@ -24,24 +24,33 @@ class APIClient:
         # Get pokemon based on its id or name.
         pokemon = self.client.get_pokemon(pokemon_id)
         # Get the stats of a pokemon, which are represented in a list.
-        stats_container = pokemon.stats
+        status_container = pokemon.stats
 
         # The output for the database input can be used better in a dictionary, so this parameter is True. But this can
         # be changed, if necessary, and the result would be a list with a number and a list inside. Now, it is a list
         # with a number and a dictionary.
         if stats_as_dict is True:
-            stats_container = self.modify_stats_list(stats_container)
+            status_container = self.modify_status_list(status_container)
 
         # Save the id of a pokemon in the list.
         pokemon_result_list.append(pokemon_id)
 
         # Save the pokemon with its stats in the list.
-        pokemon_result_list.append(stats_container)
+        pokemon_result_list.append(status_container)
 
         return pokemon_result_list
 
+    def get_pokemon_name_by_id(self, pokemon_id):
+        """
+        Get the name of a pokemon by its id.
+        """
+
+        pokemon = self.client.get_pokemon(pokemon_id)
+
+        return pokemon.name
+
     @staticmethod
-    def modify_stats_list(pokemon_stats_list):
+    def modify_status_list(pokemon_stats_list):
         """
         Modify the stat result list of the function fetch_pokemon_with_stats and transform it to a dictionary.
         """
