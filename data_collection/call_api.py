@@ -47,7 +47,7 @@ class APIClient:
 
         return pokemon_result_list
 
-    def fetch_pokemon_with_name(self, pokemon_id):
+    def fetch_pokemon_name_with_id(self, pokemon_id):
         """
         Get the name of a pokemon by its id.
         """
@@ -58,10 +58,44 @@ class APIClient:
             pokemon_name = self.client.get_pokemon(pokemon_id).name
 
         except Exception as api_error:
-            logging.error("An error occurred during the API call (get pokemon by id): {}".format(api_error),
+            logging.error("An error occurred during the API call (fetch pokemon with name): {}".format(api_error),
                           exc_info=True)
 
         return pokemon_name
+
+    def fetch_nature_with_status_effect(self, nature_id):
+        """
+        Get the nature by its id.
+        """
+        nature_effect_container = None
+
+        try:
+            nature = self.client.get_nature(nature_id)
+
+            # Make the container to a dictionary for more related data.
+            nature_effect_container = {"decreased": nature.decreased_stat.name, "increased": nature.increased_stat.name}
+
+        except Exception as api_error:
+            logging.error("An error occurred during the API call (fetch nature wih status effect): "
+                          "{}".format(api_error), exc_info=True)
+
+        return nature_effect_container
+
+    def fetch_nature_name_with_id(self, nature_id):
+        """
+        Get the name of a nature bit its id.
+        """
+
+        nature_name = None
+        try:
+            nature = self.client.get_nature(nature_id)
+            nature_name = nature.name
+
+        except Exception as api_error:
+            logging.error("An error occurred during the API call (fetch nature with name): {}".format(api_error),
+                          exc_info=True)
+
+        return nature_name
 
     @staticmethod
     def modify_status_list(pokemon_stats_list):
