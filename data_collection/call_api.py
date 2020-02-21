@@ -69,15 +69,24 @@ class APIClient:
         """
         nature_effect_container = None
 
-        try:
-            nature = self.client.get_nature(nature_id)
+        # If the nature id is one of those in the list, it is a nature which does not have an effect at the stats of a
+        # pokemon.
+        if nature_id not in [1, 7, 13, 19, 25]:
+            try:
+                nature = self.client.get_nature(nature_id)
 
-            # Make the container to a dictionary for more related data.
-            nature_effect_container = {"decreased": nature.decreased_stat.name, "increased": nature.increased_stat.name}
+                # Make the container to a dictionary for more related data.
+                nature_effect_container = {"decreased": nature.decreased_stat.name,
+                                           "increased": nature.increased_stat.name}
 
-        except Exception as api_error:
-            logging.error("An error occurred during the API call (fetch nature wih status effect): "
-                          "{}".format(api_error), exc_info=True)
+            except Exception as api_error:
+                logging.error("An error occurred during the API call (fetch nature wih status effect): "
+                              "{}".format(api_error), exc_info=True)
+
+        else:
+            # There is not an effect for these natures.
+            nature_effect_container = {"decreased": None,
+                                       "increased": None}
 
         return nature_effect_container
 

@@ -7,8 +7,8 @@ from data_collection.call_api import APIClient
 # data_list = database_handler.get_pokemon_status_data(807)
 # database_handler.save_pokemon_status_data(data_list)
 
-# get_all_pokemon_stats()
-# get_all_pokemon_names()
+get_all_pokemon_stats()
+get_all_pokemon_names()
 
 # api_client = APIClient()
 # print(api_client.fetch_nature_with_status_effect(4))
