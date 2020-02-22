@@ -32,10 +32,12 @@ class IVCalculator:
             else:
                 iv_value = self.calculate_hp_iv_value()
 
+            iv_value = self.round_iv_value(iv_value)
+
             # Save the result in the dictionary.
             iv_result_dictionary[value] = iv_value
 
-        # TODO: Round values
+        # TODO: Save not rounded values?
 
         return iv_result_dictionary
 
@@ -63,6 +65,25 @@ class IVCalculator:
                       self.pokemon_input_data["hp_ev"]
 
         return hp_iv_value
+
+    @staticmethod
+    def round_iv_value(iv_value):
+        """
+        Round the IV value to a "realistic" value. Every IV value can be an integer number between 0 and 31.
+        """
+
+        # If a value is smaller than 0, it is a calculation issue.
+        if iv_value < 0:
+            iv_value = 0
+
+        # If a value is larger than 0, it is a calculation issue.
+        if iv_value > 31:
+            iv_value = 31
+
+        # Round to the smaller integer number.
+        rounded_iv_value = int(iv_value)
+
+        return rounded_iv_value
 
 
 # TODO: Remove example

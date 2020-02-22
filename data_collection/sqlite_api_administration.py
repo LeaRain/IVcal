@@ -1,22 +1,17 @@
-import sqlite3
 import logging
 
 from .call_api import APIClient
+from database.database_master import MasterDatabaseClass
 
 
-class DatabaseAPIHandler:
+class DatabaseAPIHandler(MasterDatabaseClass):
     """
-    Create a class for dealing with the sqlite3 database file.
+    Create a class for dealing with the sqlite3 database file, while the access is established with its master/parent
+    class.
     """
 
     def __init__(self):
-        # Initialize a connection and if this file does not exist, it is created in this step. The isolation level is
-        # set to None, so autocommit is possible.
-        database_connection = sqlite3.connect("pokemon.db", isolation_level=None)
-
-        # Use a cursor as class object, so every function has access to the database.
-        self.database_cursor = database_connection.cursor()
-
+        super().__init__()
         # Get a client for API calls.
         self.api_client = APIClient()
 
