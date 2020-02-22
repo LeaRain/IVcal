@@ -3,7 +3,7 @@ An option for the calculator is the usage of a local pokemon database. This data
 a file for all the API calls.
 """
 
-from .sqlite_api_administration import DatabaseAPIHandler
+from .api_database import DatabaseAPIHandler
 
 
 def get_all_pokemon_stats():

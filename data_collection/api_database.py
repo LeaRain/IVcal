@@ -11,6 +11,7 @@ class DatabaseAPIHandler(MasterDatabaseClass):
     """
 
     def __init__(self):
+        # Use the init function of its parent class.
         super().__init__()
         # Get a client for API calls.
         self.api_client = APIClient()
