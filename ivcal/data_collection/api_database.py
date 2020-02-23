@@ -1,7 +1,7 @@
 import logging
 
 from .call_api import APIClient
-from database.database_master import MasterDatabaseClass
+from ivcal.database.database_master import MasterDatabaseClass
 
 
 class DatabaseAPIHandler(MasterDatabaseClass):

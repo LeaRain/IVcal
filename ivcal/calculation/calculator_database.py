@@ -1,6 +1,6 @@
 import logging
 
-from database.database_master import MasterDatabaseClass
+from ivcal.database.database_master import MasterDatabaseClass
 
 
 class DatabaseCalculatorHandler(MasterDatabaseClass):
@@ -53,8 +53,8 @@ class DatabaseCalculatorHandler(MasterDatabaseClass):
                 "hp": pokemon_status_result[0],
                 "attack": pokemon_status_result[1],
                 "defense": pokemon_status_result[2],
-                "special_attack": pokemon_status_result[3],
-                "special_defense": pokemon_status_result[4],
+                "special-attack": pokemon_status_result[3],
+                "special-defense": pokemon_status_result[4],
                 "speed": pokemon_status_result[5]
             }
 
@@ -101,7 +101,7 @@ class DatabaseCalculatorHandler(MasterDatabaseClass):
         # If the result is not None, the results of the query are not empty.
         if nature_effect_result is not None:
             # Define the different status values.
-            status_values = ["attack", "defense", "special_attack", "special_defense", "speed"]
+            status_values = ["attack", "defense", "special-attack", "special-defense", "speed"]
             # Create a dictionary for saving the results.
             nature_effect_dictionary = {}
 

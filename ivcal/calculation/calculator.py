@@ -18,7 +18,7 @@ class IVCalculator:
         iv_result_dictionary = {}
 
         # Define the values, which should be calculated for iterating over them.
-        values_to_calculate = ["hp", "attack", "defense", "special_attack", "special_defense", "speed"]
+        values_to_calculate = ["hp", "attack", "defense", "special-attack", "special-defense", "speed"]
 
         for value in values_to_calculate:
             # Define a string for the ev value and the nature value of a specific status value.
@@ -83,39 +83,3 @@ class IVCalculator:
 
         return rounded_iv_value
 
-
-# TODO: Remove example
-if __name__ == "__main__":
-    input_data = {
-        "level": 100,
-        "hp": 272,
-        "attack": 125,
-        "defense": 225,
-        "special_attack": 320,
-        "special_defense": 226,
-        "speed": 229,
-        "hp_ev": 6,
-        "attack_ev": 0,
-        "defense_ev": 0,
-        "special_attack_ev": 252,
-        "special_defense_ev": 0,
-        "speed_ev": 252,
-        "attack_nature": 1,
-        "defense_nature": 1,
-        "special_attack_nature": 0.9,
-        "special_defense_nature": 1.1,
-        "speed_nature": 1
-    }
-
-    base_data = {
-        "hp": 65,
-        "attack": 60,
-        "defense": 110,
-        "special_attack": 130,
-        "special_defense": 95,
-        "speed": 65
-    }
-
-    iv_calc = IVCalculator(input_data, base_data)
-
-    print(iv_calc.calculate_all_iv_values())

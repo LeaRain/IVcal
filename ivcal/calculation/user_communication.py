@@ -1,6 +1,6 @@
 import logging
 
-from calculation.calculator_database import DatabaseCalculatorHandler
+from ivcal.calculation.calculator_database import DatabaseCalculatorHandler
 
 
 class UserInteraction:
@@ -15,13 +15,44 @@ class UserInteraction:
         # The data source can also be defined as api. As a result, the api is used for fetching data, while the local
         # database is not touched.
         if self.data_source == "api":
-            from data_collection.call_api import APIClient
+            from ivcal.data_collection.call_api import APIClient
             self.api_client = APIClient()
 
-        # Save the current pokemon data in a dictionary and.
+        # Save the current pokemon data in a dictionary.
         self.current_pokemon_data = {}
+        # Save the current pokemon base data in a dictionary.
+        self.current_pokemon_base_data = {}
         # Establish a connection to the database file with a handler.
         self.database_handler = DatabaseCalculatorHandler()
+
+    def first_time_question(self):
+        """
+        Ask the user, if it's their first time, they run this program. This is necessary, if the data base is local. If
+        the data comes from the API, this is irrelevant.
+        """
+
+        if self.data_source == "local":
+            user_answer = None
+
+            # Initiate a user question process.
+            while user_answer is None:
+                user_answer = input("Is this the first time you run this program? (Y/n) ").lower()
+
+                # Default answer is yes and True.
+                if user_answer in ["y", ""]:
+                    print("Please wait a minute (or two, or three, ...). Data collection for the local database in "
+                          "progress.")
+
+                    return True
+
+                elif user_answer == "n":
+                    return False
+
+                else:
+                    user_answer = None
+
+        else:
+            return False
 
     def get_pokemon_name(self):
         """
@@ -34,6 +65,9 @@ class UserInteraction:
         while pokemon_id is None:
             # Pokemon names are stored in lower case.
             pokemon_user_name = input("What is the name of your pokemon? ").lower()
+
+            # Save the name of the current pokemon.
+            self.current_pokemon_data["name"] = pokemon_user_name
 
             if self.data_source == "local":
                 pokemon_id = self.database_handler.get_pokemon_id_by_name(pokemon_user_name)
@@ -67,7 +101,7 @@ class UserInteraction:
                 pokemon_level = int(pokemon_level)
 
                 # The level of a pokemon needs to be at least 1 or as a maximum 100.
-                if pokemon_level >= 100 or pokemon_level <= 1:
+                if pokemon_level < 0 or pokemon_level > 100:
                     print("The level of your pokemon needs to be between 1 and 100.")
                     pokemon_level = None
 
@@ -85,7 +119,7 @@ class UserInteraction:
         """
 
         # Define the existing status values.
-        status_values = ["hp", "attack", "defense", "special_attack", "special_defense", "speed"]
+        status_values = ["hp", "attack", "defense", "special-attack", "special-defense", "speed"]
 
         # Get an input for every value.
         for value in status_values:
@@ -117,7 +151,7 @@ class UserInteraction:
         """
 
         # Define the existing status values.
-        status_values = ["hp_ev", "attack_ev", "defense_ev", "special_attack_ev", "special_defense_ev", "speed_ev"]
+        status_values = ["hp_ev", "attack_ev", "defense_ev", "special-attack_ev", "special-defense_ev", "speed_ev"]
 
         # Define a sum, which only can be 510 or smaller.
         ev_sum = 0
@@ -195,7 +229,7 @@ class UserInteraction:
             base_stats = self.api_client.fetch_pokemon_with_stats(self.current_pokemon_data["id"])[1]
 
         # Update the dictionary with pokemon data.
-        self.current_pokemon_data.update(base_stats)
+        self.current_pokemon_base_data.update(base_stats)
 
     def get_nature_influence_stats(self):
         """
@@ -212,7 +246,7 @@ class UserInteraction:
             nature_effect_dict = self.api_client.fetch_nature_with_status_effect(self.current_pokemon_data["nature_id"])
 
             # Make a list of potential influenced natures for iterating.
-            influenced_natures = ["attack", "defense", "special_attack", "special_defense", "speed"]
+            influenced_natures = ["attack", "defense", "special-attack", "special-defense", "speed"]
 
             # Make a dictionary for saving the results.
             nature_effect_result = {}
@@ -237,3 +271,42 @@ class UserInteraction:
         # Update the class-wide dictionary with the new data
         self.current_pokemon_data.update(nature_effect_result)
 
+    def show_iv_result(self, iv_calculation_result):
+        """
+        Show the results of the calculation to the user.
+        """
+
+        print("The iv result for your pokemon {} is:\n"
+              "hp: {}\n"
+              "attack: {}\n"
+              "defense: {}\n"
+              "special-attack: {}\n"
+              "special-defense: {}\n"
+              "speed: {}".format(self.current_pokemon_data["name"],
+                                 iv_calculation_result["hp"],
+                                 iv_calculation_result["attack"],
+                                 iv_calculation_result["defense"],
+                                 iv_calculation_result["special-attack"],
+                                 iv_calculation_result["special-defense"],
+                                 iv_calculation_result["speed"]))
+
+
+def local_data_source_question():
+    """
+    Ask the user for the data source of the program. This function is not part of the class above, because in a dialog,
+    an object of the class for user interaction is created later.
+    """
+
+    user_answer = None
+
+    while user_answer is None:
+        user_answer = input("Do you want to use the local database as data source? (Y/n) ")
+
+        if user_answer in ["y", ""]:
+            return True
+
+        elif user_answer == "n":
+            return False
+
+        else:
+            user_answer = None
