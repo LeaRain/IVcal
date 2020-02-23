@@ -2,6 +2,8 @@ import logging
 
 from ivcal.database.database_master import MasterDatabaseClass
 
+logging.basicConfig(filename="events.log")
+
 
 class DatabaseCalculatorHandler(MasterDatabaseClass):
     """

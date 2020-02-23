@@ -1,6 +1,8 @@
 import pokepy
 import logging
 
+logging.basicConfig(filename="events.log")
+
 
 class APIClient:
     """

@@ -2,6 +2,8 @@ import logging
 
 from ivcal.calculation.calculator_database import DatabaseCalculatorHandler
 
+logging.basicConfig(filename="events.log")
+
 
 class UserInteraction:
     """

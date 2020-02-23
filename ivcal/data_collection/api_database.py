@@ -3,6 +3,8 @@ import logging
 from .call_api import APIClient
 from ivcal.database.database_master import MasterDatabaseClass
 
+logging.basicConfig(filename="events.log")
+
 
 class DatabaseAPIHandler(MasterDatabaseClass):
     """
