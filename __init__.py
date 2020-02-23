@@ -1,8 +1,13 @@
+"""
+Right now, this file is a hell of testing area.
+"""
+
 from data_collection.api_database import DatabaseAPIHandler
 from data_collection.massive_api_call import get_all_pokemon_stats, get_all_pokemon_names, get_all_nature_stats, \
     get_all_nature_names
 from data_collection.call_api import APIClient
 from calculation.calculator_database import DatabaseCalculatorHandler
+from calculation.user_communication import UserInteraction
 
 # database_handler = DatabaseHandler()
 # data_list = database_handler.get_pokemon_status_data(807)
@@ -17,6 +22,8 @@ from calculation.calculator_database import DatabaseCalculatorHandler
 # get_all_nature_stats()
 # get_all_nature_names()
 
-database_handler = DatabaseCalculatorHandler()
-print(database_handler.get_nature_status_effects(1))
+# database_handler = DatabaseCalculatorHandler()
+# print(database_handler.get_nature_status_effects(1))
 
+user_interaction = UserInteraction()
+user_interaction.get_pokemon_nature()

@@ -48,9 +48,9 @@ class IVCalculator:
         """
 
         # Use one hell of formula for IV calculation.
-        single_iv_value = ((((self.pokemon_input_data[specific_value] / self.pokemon_input_data[
-            nature_effect]) - 5) * 100) / self.pokemon_input_data["pokemon_level"]) - 2 * self.pokemon_base_data[
-                              specific_value] - 0.25 * self.pokemon_input_data[specific_value_ev]
+        single_iv_value = ((((self.pokemon_input_data[specific_value] / self.pokemon_input_data[nature_effect]) - 5)
+                            * 100) / self.pokemon_input_data["level"]) - 2 * self.pokemon_base_data[specific_value] \
+                          - 0.25 * self.pokemon_input_data[specific_value_ev]
 
         return single_iv_value
 
@@ -60,8 +60,8 @@ class IVCalculator:
         """
 
         # Use one hell of formula for IV calculation.
-        hp_iv_value = (((self.pokemon_input_data["hp"] - self.pokemon_input_data["pokemon_level"] - 10) * 100) /
-                       self.pokemon_input_data["pokemon_level"]) - 2 * self.pokemon_base_data["hp"] - 0.25 * \
+        hp_iv_value = (((self.pokemon_input_data["hp"] - self.pokemon_input_data["level"] - 10) * 100) /
+                       self.pokemon_input_data["level"]) - 2 * self.pokemon_base_data["hp"] - 0.25 * \
                       self.pokemon_input_data["hp_ev"]
 
         return hp_iv_value
@@ -89,7 +89,7 @@ class IVCalculator:
 # TODO: Remove example
 if __name__ == "__main__":
     input_data = {
-        "pokemon_level": 100,
+        "level": 100,
         "hp": 272,
         "attack": 125,
         "defense": 225,

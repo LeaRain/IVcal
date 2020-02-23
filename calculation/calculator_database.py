@@ -71,7 +71,7 @@ class DatabaseCalculatorHandler(MasterDatabaseClass):
         """
 
         # Execute the query for the nature id based on the parameter name.
-        nature_id_query_result = self.database_cursor.execute("""SELECT nature_id FROM nature_id_mapping 
+        nature_id_query_result = self.database_cursor.execute("""SELECT nature_id FROM nature_id_name_mapping 
         WHERE nature_name=?;""", (nature_name,))
 
         # Get the result, which is a tuple, if the result query is empty.

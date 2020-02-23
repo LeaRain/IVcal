@@ -58,10 +58,26 @@ class APIClient:
             pokemon_name = self.client.get_pokemon(pokemon_id).name
 
         except Exception as api_error:
-            logging.error("An error occurred during the API call (fetch pokemon with name): {}".format(api_error),
+            logging.error("An error occurred during the API call (fetch pokemon with id): {}".format(api_error),
                           exc_info=True)
 
         return pokemon_name
+
+    def fetch_pokemon_id_with_name(self, pokemon_name):
+        """
+        Get the id of a pokemon by its name as other way around compared with fetch_pokemon_name_with_id
+        """
+
+        pokemon_id = None
+
+        try:
+            pokemon_id = self.client.get_pokemon(pokemon_name).id
+
+        except Exception as api_error:
+            logging.error("An error occurred during the API call (fetch pokemon with name): {}".format(api_error),
+                          exc_info=True)
+
+        return pokemon_id
 
     def fetch_nature_with_status_effect(self, nature_id):
         """
@@ -92,7 +108,7 @@ class APIClient:
 
     def fetch_nature_name_with_id(self, nature_id):
         """
-        Get the name of a nature bit its id.
+        Get the name of a nature by its id.
         """
 
         nature_name = None
@@ -101,10 +117,26 @@ class APIClient:
             nature_name = nature.name
 
         except Exception as api_error:
-            logging.error("An error occurred during the API call (fetch nature with name): {}".format(api_error),
+            logging.error("An error occurred during the API call (fetch nature with id): {}".format(api_error),
                           exc_info=True)
 
         return nature_name
+
+    def fetch_nature_id_with_name(self, nature_name):
+        """
+        Get the name of a nature by its id.
+        """
+
+        nature_id = None
+        try:
+            nature = self.client.get_nature(nature_name)
+            nature_id = nature.id
+
+        except Exception as api_error:
+            logging.error("An error occurred during the API call (fetch nature with name): {}".format(api_error),
+                          exc_info=True)
+
+        return nature_id
 
     @staticmethod
     def modify_status_list(pokemon_stats_list):
