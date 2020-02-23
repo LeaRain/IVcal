@@ -47,6 +47,9 @@ class UserInteraction:
         # After leaving the while loop with correct input, the id is stored in the dictionary for pokemon data.
         self.current_pokemon_data["id"] = pokemon_id
 
+        # After saving the correct id, get the base stats for the pokemon.
+        self.get_pokemon_base_stats()
+
     def get_pokemon_level(self):
         """
         Get the level of a pokemon by user interaction.
@@ -173,4 +176,64 @@ class UserInteraction:
 
         # After leaving the while loop with correct input, the id is stored in the dictionary for pokemon data.
         self.current_pokemon_data["nature_id"] = nature_id
+
+        self.get_nature_influence_stats()
+
+    def get_pokemon_base_stats(self):
+        """
+        Get the base stats of a pokemon by the given method.
+        """
+
+        # Use the local method.
+        if self.data_source == "local":
+            # Use the class for database handling
+            base_stats = self.database_handler.get_pokemon_base_stats_by_id(self.current_pokemon_data["id"])
+
+        # Use the api method.
+        else:
+            # The api function returns a list and only the last part of the list is necessary
+            base_stats = self.api_client.fetch_pokemon_with_stats(self.current_pokemon_data["id"])[1]
+
+        # Update the dictionary with pokemon data.
+        self.current_pokemon_data.update(base_stats)
+
+    def get_nature_influence_stats(self):
+        """
+        Get the influence of the nature on the status values.
+        """
+
+        if self.data_source == "local":
+            # Ask the local database.
+            nature_effect_result = self.database_handler.get_nature_status_effects(self.current_pokemon_data[
+                                                                                       "nature_id"])
+
+        else:
+            # Use the api function, which returns a dictionary with a decreased and an increased value.
+            nature_effect_dict = self.api_client.fetch_nature_with_status_effect(self.current_pokemon_data["nature_id"])
+
+            # Make a list of potential influenced natures for iterating.
+            influenced_natures = ["attack", "defense", "special_attack", "special_defense", "speed"]
+
+            # Make a dictionary for saving the results.
+            nature_effect_result = {}
+
+            for nature in influenced_natures:
+                # Define the nature effect for its further use in the application and in the dictionary.
+                nature_effect = "{}_nature".format(nature)
+
+                # Check for decreased nature.
+                if nature == nature_effect_dict["decreased"]:
+                    # Set the value to 0.9
+                    nature_effect_result[nature_effect] = 0.9
+
+                # Check for increased nature.
+                elif nature == nature_effect_dict["increased"]:
+                    # Set the value to 1.1
+                    nature_effect_result[nature_effect] = 1.1
+
+                else:
+                    nature_effect_result[nature_effect] = 1
+
+        # Update the class-wide dictionary with the new data
+        self.current_pokemon_data.update(nature_effect_result)
 

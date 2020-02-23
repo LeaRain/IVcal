@@ -101,7 +101,7 @@ class DatabaseCalculatorHandler(MasterDatabaseClass):
         # If the result is not None, the results of the query are not empty.
         if nature_effect_result is not None:
             # Define the different status values.
-            status_values = ["attack", "defense", "special-attack", "special-defense", "speed"]
+            status_values = ["attack", "defense", "special_attack", "special_defense", "speed"]
             # Create a dictionary for saving the results.
             nature_effect_dictionary = {}
 

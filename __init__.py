@@ -25,5 +25,5 @@ from calculation.user_communication import UserInteraction
 # database_handler = DatabaseCalculatorHandler()
 # print(database_handler.get_nature_status_effects(1))
 
-user_interaction = UserInteraction()
+user_interaction = UserInteraction(data_source="local")
 user_interaction.get_pokemon_nature()

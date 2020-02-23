@@ -37,8 +37,6 @@ class IVCalculator:
             # Save the result in the dictionary.
             iv_result_dictionary[value] = iv_value
 
-        # TODO: Save not rounded values?
-
         return iv_result_dictionary
 
     def calculate_single_iv_value(self, specific_value, specific_value_ev, nature_effect):
